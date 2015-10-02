@@ -1,6 +1,6 @@
 ![SEOshop](http://www.getseoshop.com/assets/gfx/seoshop-logo.min.png)
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/seoshop/seoshop-php.svg)](https://packagist.org/packages/seoshop/seoshop-php) 
+[![Latest Stable Version](http://img.shields.io/packagist/v/dotcommerce/seoshop-php.svg)](https://packagist.org/packages/dotcommerce/seoshop-php) 
 ![License](http://img.shields.io/badge/license-MIT-green.svg)
 
 # SEOshop PHP API client ++
