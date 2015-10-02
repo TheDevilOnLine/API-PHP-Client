@@ -3,8 +3,8 @@
 [![Latest Stable Version](http://img.shields.io/packagist/v/seoshop/seoshop-php.svg)](https://packagist.org/packages/seoshop/seoshop-php) 
 ![License](http://img.shields.io/badge/license-MIT-green.svg)
 
-# SEOshop PHP API client
-This package is a convenience wrapper to communicate with the SEOshop REST-API.
+# SEOshop PHP API client ++
+This package is a convenience wrapper to communicate with the SEOshop REST-API, modified and ammended by DotCommerce.
 
 ## Installation
 For the installation of the client, there are 2 ways. The composer way is preferable, but not always possible.
@@ -14,7 +14,7 @@ Include the package in your `composer.json` file
 ``` json
 {
     "require": {
-        "seoshop/seoshop-php": "~1.6"
+        "dotcommerce/seoshop-php": "~1.7"
     }
 }
 ```
@@ -31,7 +31,7 @@ require 'vendor/autoload.php';
 ### Manual
 Obtain the latest version of the SEOshop PHP API client
 ``` bash
-git clone https://github.com/SEOshop/API-PHP-Client
+git clone https://github.com/TheDevilOnLine/API-PHP-Client
 ```
 
 And include the class in your project

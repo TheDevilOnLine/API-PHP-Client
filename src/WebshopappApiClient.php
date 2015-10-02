@@ -8,7 +8,7 @@ class WebshopappApiClient
     /**
      * The Api Client version (do not change!)
      */
-    const CLIENT_VERSION = '1.7.0';
+    const CLIENT_VERSION = '1.7.0 - DC';
     /**
      * The Api Hosts (do not change!)
      */
@@ -649,97 +649,6 @@ class WebshopappApiClient
         $this->variantsBulk              = new WebshopappApiResourceVariantsBulk($this);
         $this->variantsMovements         = new WebshopappApiResourceVariantsMovements($this);
         $this->webhooks                  = new WebshopappApiResourceWebhooks($this);
-        $this->account                   = new WebshopappApiResourceAccount( $this );
-        $this->accountMetafields         = new WebshopappApiResourceAccountMetafields( $this );
-        $this->accountPermissions        = new WebshopappApiResourceAccountPermissions( $this );
-        $this->accountRatelimit          = new WebshopappApiResourceAccountRatelimit( $this );
-        $this->accountRequests           = new WebshopappApiResourceAccountRequests( $this );
-        $this->attributes                = new WebshopappApiResourceAttributes( $this );
-        $this->blogs                     = new WebshopappApiResourceBlogs( $this );
-        $this->blogsArticles             = new WebshopappApiResourceBlogsArticles( $this );
-        $this->blogsArticlesImage        = new WebshopappApiResourceBlogsArticlesImage( $this );
-        $this->blogsArticlesTags         = new WebshopappApiResourceBlogsArticlesTags( $this );
-        $this->blogsComments             = new WebshopappApiResourceBlogsComments( $this );
-        $this->blogsTags                 = new WebshopappApiResourceBlogsTags( $this );
-        $this->brands                    = new WebshopappApiResourceBrands( $this );
-        $this->brandsImage               = new WebshopappApiResourceBrandsImage( $this );
-        $this->catalog                   = new WebshopappApiResourceCatalog( $this );
-        $this->categories                = new WebshopappApiResourceCategories( $this );
-        $this->categoriesImage           = new WebshopappApiResourceCategoriesImage( $this );
-        $this->categoriesProducts        = new WebshopappApiResourceCategoriesProducts( $this );
-        $this->checkouts                 = new WebshopappApiResourceCheckouts( $this );
-        $this->checkoutsOrder            = new WebshopappApiResourceCheckoutsOrder( $this );
-        $this->checkoutsPayment_methods  = new WebshopappApiResourceCheckoutsPayment_methods( $this );
-        $this->checkoutsProducts         = new WebshopappApiResourceCheckoutsProducts( $this );
-        $this->checkoutsShipment_methods = new WebshopappApiResourceCheckoutsShipment_methods( $this );
-        $this->checkoutsValidate         = new WebshopappApiResourceCheckoutsValidate( $this );
-        $this->contacts                  = new WebshopappApiResourceContacts( $this );
-        $this->countries                 = new WebshopappApiResourceCountries( $this );
-        $this->customers                 = new WebshopappApiResourceCustomers( $this );
-        $this->customersLogin            = new WebshopappApiResourceCustomersLogin( $this );
-        $this->customersMetafields       = new WebshopappApiResourceCustomersMetafields( $this );
-        $this->dashboard                 = new WebshopappApiResourceDashboard( $this );
-        $this->deliverydates             = new WebshopappApiResourceDeliverydates( $this );
-        $this->discounts                 = new WebshopappApiResourceDiscounts( $this );
-        $this->events                    = new WebshopappApiResourceEvents( $this );
-        $this->files                     = new WebshopappApiResourceFiles( $this );
-        $this->groups                    = new WebshopappApiResourceGroups( $this );
-        $this->groupsCustomers           = new WebshopappApiResourceGroupsCustomers( $this );
-        $this->invoices                  = new WebshopappApiResourceInvoices( $this );
-        $this->invoicesItems             = new WebshopappApiResourceInvoicesItems( $this );
-        $this->invoicesMetafields        = new WebshopappApiResourceInvoicesMetafields( $this );
-        $this->languages                 = new WebshopappApiResourceLanguages( $this );
-        $this->metafields                = new WebshopappApiResourceMetafields( $this );
-        $this->orders                    = new WebshopappApiResourceOrders( $this );
-        $this->ordersCredit              = new WebshopappApiResourceOrdersCredit( $this );
-        $this->ordersMetafields          = new WebshopappApiResourceOrdersMetafields( $this );
-        $this->ordersProducts            = new WebshopappApiResourceOrdersProducts( $this );
-        $this->ordersEvents              = new WebshopappApiResourceOrdersEvents( $this );
-        $this->paymentmethods            = new WebshopappApiResourcePaymentmethods( $this );
-        $this->products                  = new WebshopappApiResourceProducts( $this );
-        $this->productsAttributes        = new WebshopappApiResourceProductsAttributes( $this );
-        $this->productsImages            = new WebshopappApiResourceProductsImages( $this );
-        $this->productsMetafields        = new WebshopappApiResourceProductsMetafields( $this );
-        $this->productsRelations         = new WebshopappApiResourceProductsRelations( $this );
-        $this->quotes                    = new WebshopappApiResourceQuotes( $this );
-        $this->quotesConvert             = new WebshopappApiResourceQuotesConvert( $this );
-        $this->quotesPaymentmethods      = new WebshopappApiResourceQuotesPaymentmethods( $this );
-        $this->quotesProducts            = new WebshopappApiResourceQuotesProducts( $this );
-        $this->quotesShippingmethods     = new WebshopappApiResourceQuotesShippingmethods( $this );
-        $this->redirects                 = new WebshopappApiResourceRedirects( $this );
-        $this->returns                   = new WebshopappApiResourceReturns( $this );
-        $this->reviews                   = new WebshopappApiResourceReviews( $this );
-        $this->sets                      = new WebshopappApiResourceSets( $this );
-        $this->shipments                 = new WebshopappApiResourceShipments( $this );
-        $this->shipmentsMetafields       = new WebshopappApiResourceShipmentsMetafields( $this );
-        $this->shipmentsProducts         = new WebshopappApiResourceShipmentsProducts( $this );
-        $this->shippingmethods           = new WebshopappApiResourceShippingmethods( $this );
-        $this->shippingmethodsCountries  = new WebshopappApiResourceShippingmethodsCountries( $this );
-        $this->shippingmethodsValues     = new WebshopappApiResourceShippingmethodsValues( $this );
-        $this->shop                      = new WebshopappApiResourceShop( $this );
-        $this->shopCompany               = new WebshopappApiResourceShopCompany( $this );
-        $this->shopJavascript            = new WebshopappApiResourceShopJavascript( $this );
-        $this->shopLimits                = new WebshopappApiResourceShopLimits( $this );
-        $this->shopMetafields            = new WebshopappApiResourceShopMetafields( $this );
-        $this->shopScripts               = new WebshopappApiResourceShopScripts( $this );
-        $this->shopTracking              = new WebshopappApiResourceShopTracking( $this );
-        $this->shopWebsite               = new WebshopappApiResourceShopWebsite( $this );
-        $this->subscriptions             = new WebshopappApiResourceSubscriptions( $this );
-        $this->suppliers                 = new WebshopappApiResourceSuppliers( $this );
-        $this->tags                      = new WebshopappApiResourceTags( $this );
-        $this->tagsProducts              = new WebshopappApiResourceTagsProducts( $this );
-        $this->taxes                     = new WebshopappApiResourceTaxes( $this );
-        $this->textpages                 = new WebshopappApiResourceTextpages( $this );
-        $this->tickets                   = new WebshopappApiResourceTickets( $this );
-        $this->ticketsMessages           = new WebshopappApiResourceTicketsMessages( $this );
-        $this->time                      = new WebshopappApiResourceTime( $this );
-        $this->types                     = new WebshopappApiResourceTypes( $this );
-        $this->typesAttributes           = new WebshopappApiResourceTypesAttributes( $this );
-        $this->variants                  = new WebshopappApiResourceVariants( $this );
-        $this->variantsMetafields        = new WebshopappApiResourceVariantsMetafields( $this );
-        $this->variantsBulk              = new WebshopappApiResourceVariantsBulk( $this );
-        $this->variantsMovements         = new WebshopappApiResourceVariantsMovements( $this );
-        $this->webhooks                  = new WebshopappApiResourceWebhooks( $this );
     }
 
     /**
@@ -845,8 +754,8 @@ class WebshopappApiClient
         $curlOptions += array(
             CURLOPT_HEADER         => false,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ')',
+            //CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
         );
 
         $curlHandle = curl_init();
@@ -1024,6 +933,44 @@ class WebshopappApiResourceAccountMetafields
     public function count($params = array())
     {
         return $this->client->read('account/metafields/count', $params);
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function create($fields)
+    {
+        $fields = array('accountMetafield' => $fields);
+
+        return $this->client->create('account/metafields', $fields);
+    }
+
+    /**
+     * @param int $metafieldId
+     * @param array $fields
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function update($metafieldId, $fields)
+    {
+        $fields = array('accountMetafield' => $fields);
+
+        return $this->client->update('account/metafields/' . $metafieldId, $fields);
+    }
+
+    /**
+     * @param int $metafieldId
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function delete($metafieldId)
+    {
+        return $this->client->delete('account/metafields/' . $metafieldId);
     }
 }
 
@@ -2278,70 +2225,6 @@ class WebshopappApiResourceCheckoutsProducts
     public function delete($checkoutId, $productId)
     {
         return $this->client->delete('checkouts/' . $checkoutId . '/products/' . $productId);
-    }
-}
-
-class WebshopappApiResourceSets
-{
-    /**
-     * @var WebshopappApiClient
-     */
-    private $client;
-
-    public function __construct( WebshopappApiClient $client )
-    {
-        $this->client = $client;
-    }
-
-    /**
-     * @param array $fields
-     *
-     * @return array
-     * @throws WebshopappApiException
-     */
-    public function create( $fields )
-    {
-        $fields = array( 'set' => $fields );
-
-        return $this->client->create( 'sets', $fields );
-    }
-
-    /**
-     * @param int   $setId
-     * @param array $params
-     *
-     * @return array
-     * @throws WebshopappApiException
-     */
-    public function get( $setId = null, $params = array() )
-    {
-        if ( ! $setId) {
-            return $this->client->read( 'sets', $params );
-        } else {
-            return $this->client->read( 'sets/' . $setId, $params );
-        }
-    }
-
-    /**
-     * @param array $params
-     *
-     * @return int
-     * @throws WebshopappApiException
-     */
-    public function count( $params = array() )
-    {
-        return $this->client->read( 'sets/count', $params );
-    }
-
-    /**
-     * @param int $setId
-     *
-     * @return array
-     * @throws WebshopappApiException
-     */
-    public function delete( $setId )
-    {
-        return $this->client->delete( 'sets/' . $setId );
     }
 }
 
@@ -7038,3 +6921,4 @@ class WebshopappApiResourceWebhooks
     {
         return $this->client->delete('webhooks/' . $webhookId);
     }
+}

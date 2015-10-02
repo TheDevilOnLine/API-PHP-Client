@@ -1,5 +1,5 @@
 {
-    "name": "seoshop/seoshop-php",
+    "name": "dotcommerce/seoshop-php",
     "description": "PHP client for the SEOshop API",
     "keywords": ["api", "client", "php"],
     "homepage": "http://developers.seoshop.com",
@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "SEOshop and contributors",
-            "homepage": "https://github.com/SEOshop/API-PHP-Client/contributors"
+            "homepage": "https://github.com/TheDevilOnLine/API-PHP-Client/contributors"
         }
     ],
     "require": {
