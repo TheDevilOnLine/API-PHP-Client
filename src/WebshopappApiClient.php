@@ -36,6 +36,10 @@ class WebshopappApiClient
      * @var int
      */
     private $apiCallsMade = 0;
+    /**
+     * @var array
+     */
+    private $options = array();
 
     /**
      * @var WebshopappApiResourceAccount
@@ -433,16 +437,18 @@ class WebshopappApiClient
      * @var WebshopappApiResourceWebhooks
      */
     public $webhooks;
-
+    
     /**
      * @param string $apiKey      The api key
      * @param string $apiSecret   The api secret
      * @param string $apiLanguage The language to use the api in
      * @param string $apiServer   The api server to use test / live
+     * @param array  $options     The options:
+     *                            - curl.options, an associative array with curl options
      *
      * @throws WebshopappApiException
      */
-    public function __construct($apiServer, $apiKey, $apiSecret, $apiLanguage)
+    public function __construct($apiServer, $apiKey, $apiSecret, $apiLanguage, array $options = array())
     {
         if (!function_exists('curl_init'))
         {
@@ -457,6 +463,7 @@ class WebshopappApiClient
         $this->setApiKey($apiKey);
         $this->setApiSecret($apiSecret);
         $this->setApiLanguage($apiLanguage);
+        $this->setOptions($options);
 
         $this->registerResources();
     }
@@ -517,6 +524,22 @@ class WebshopappApiClient
         $this->apiLanguage = $apiLanguage;
     }
 
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
     /**
      * @return string
      */
@@ -754,10 +777,13 @@ class WebshopappApiClient
         $curlOptions += array(
             CURLOPT_HEADER         => false,
             CURLOPT_RETURNTRANSFER => true,
-            //CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
         );
 
+        if(!empty($this->options['curl.options']) && is_array($this->options['curl.options'])) {
+            $curlOptions += $this->options['curl.options'];
+        }
+        
         $curlHandle = curl_init();
 
         curl_setopt_array($curlHandle, $curlOptions);
