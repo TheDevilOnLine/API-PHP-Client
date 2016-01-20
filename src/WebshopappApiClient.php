@@ -3675,7 +3675,7 @@ class WebshopappApiResourceOrdersCredit
      */
     public function create($orderId, $fields)
     {
-        $fields = array('creditInvoice' => $fields);
+        $fields = array('credit' => $fields);
 
         return $this->client->create('orders/' . $orderId . '/credit', $fields);
     }
