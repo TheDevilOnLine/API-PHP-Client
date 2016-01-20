@@ -794,6 +794,7 @@ class WebshopappApiClient
             CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
             CURLOPT_CONNECTTIMEOUT  => 10,
             CURLOPT_TIMEOUT         => 60,
+            CURLOPT_ENCODING        => "",
         );
 
         if(!empty($this->options['curl.options']) && is_array($this->options['curl.options'])) {
