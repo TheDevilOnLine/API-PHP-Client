@@ -742,7 +742,21 @@ class WebshopappApiClient
      * @return mixed The decoded response object
      * @throws WebshopappApiException
      */
-    private function sendRequest($url, $method, $payload = null)
+    private function sendRequest($url, $method, $payload = null){
+        for($i=0;$i<3;$i++) {
+            try {
+                return $this->realSendRequest($url, $method, $payload);
+            }catch(\Exception $ex) {
+                if(strpos($ex->getMessage(), "Curl error:") !== 0 || $i == 2) {
+                    throw $ex;
+                }
+
+                sleep(10*$i + 5);
+            }
+        }
+    }
+
+    private function realSendRequest($url, $method, $payload = null)
     {
         $this->checkLoginCredentials();
 
@@ -778,6 +792,8 @@ class WebshopappApiClient
             CURLOPT_HEADER         => false,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
+            CURLOPT_CONNECTTIMEOUT  => 10,
+            CURLOPT_TIMEOUT         => 60,
         );
 
         if(!empty($this->options['curl.options']) && is_array($this->options['curl.options'])) {
