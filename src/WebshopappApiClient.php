@@ -41,7 +41,15 @@ class WebshopappApiClient
      */
     private $options = array();
 
+    /**
+     * @var string
+     */
     private $lastHeaders = null;
+
+    /**
+     * @var WebshopappApiClientRateLimiter
+     */
+    private $rateLimiter = null;
 
     /**
      * @var WebshopappApiResourceAccount
@@ -439,7 +447,7 @@ class WebshopappApiClient
      * @var WebshopappApiResourceWebhooks
      */
     public $webhooks;
-    
+
     /**
      * @param string $apiKey      The api key
      * @param string $apiSecret   The api secret
@@ -541,13 +549,17 @@ class WebshopappApiClient
     {
         return $this->options;
     }
-    
+
     /**
      * @return string
      */
     public function getApiServer()
     {
         return $this->apiServer;
+    }
+
+    public function setRateLimiter($rateLimiter) {
+        $this->rateLimiter = $rateLimiter;
     }
 
     /**
@@ -769,6 +781,10 @@ class WebshopappApiClient
 
     private function realSendRequest($url, $method, $payload = null)
     {
+        if($this->rateLimiter !== null) {
+            $this->rateLimiter->preSendRequest($this);
+        }
+
         $this->checkLoginCredentials();
 
         if ($method == 'post' || $method == 'put')
@@ -811,7 +827,7 @@ class WebshopappApiClient
         if(!empty($this->options['curl.options']) && is_array($this->options['curl.options'])) {
             $curlOptions += $this->options['curl.options'];
         }
-        
+
         $curlHandle = curl_init();
 
         curl_setopt_array($curlHandle, $curlOptions);
