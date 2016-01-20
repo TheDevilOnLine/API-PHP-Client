@@ -2268,13 +2268,14 @@ class WebshopappApiResourceCheckoutsShipment_methods
 
     /**
      * @param int $checkoutId
+     * @param boolean $all
      *
      * @return array
      * @throws WebshopappApiException
      */
-    public function get($checkoutId)
+    public function get($checkoutId, $all = false)
     {
-        return $this->client->read('checkouts/' . $checkoutId . '/shipment_methods');
+        return $this->client->read('checkouts/' . $checkoutId . '/shipment_methods'.($all ? "?all":""));
     }
 }
 
