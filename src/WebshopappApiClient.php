@@ -41,6 +41,8 @@ class WebshopappApiClient
      */
     private $options = array();
 
+    private $lastHeaders = null;
+
     /**
      * @var WebshopappApiResourceAccount
      */
@@ -557,6 +559,15 @@ class WebshopappApiClient
     }
 
     /**
+     * Returns the headers of the last call
+     *
+     * @return string
+     */
+    public function getLastHeaders() {
+        return $this->lastHeaders;
+    }
+
+    /**
      * @throws WebshopappApiException
      */
     private function checkLoginCredentials()
@@ -789,7 +800,7 @@ class WebshopappApiClient
         }
 
         $curlOptions += array(
-            CURLOPT_HEADER         => false,
+            CURLOPT_HEADER         => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
             CURLOPT_CONNECTTIMEOUT  => 10,
@@ -805,13 +816,17 @@ class WebshopappApiClient
 
         curl_setopt_array($curlHandle, $curlOptions);
 
-        $responseBody = curl_exec($curlHandle);
+        $responseHeadersAndBody = curl_exec($curlHandle);
+        $headerSize      = curl_getinfo($curlHandle, CURLINFO_HEADER_SIZE);
+        $responseHeaders = substr($responseHeadersAndBody, 0, $headerSize);
+        $responseBody    = substr($responseHeadersAndBody, $headerSize);
 
         if (curl_errno($curlHandle))
         {
             $this->handleCurlError($curlHandle);
         }
 
+        $this->lastHeaders = $responseHeaders;
         $responseBody = json_decode($responseBody, true);
         $responseCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
 
