@@ -17,6 +17,10 @@
         "ext-mbstring": "*"
     },
     "autoload": {
-        "files": ["src/WebshopappApiClient.php"]
+        "files": [
+            "src/WebshopappApiClient.php",
+            "src/WebshopappApiClientRateLimiter.php",
+            "src/WebshopappApiClientSimpleRateLimiter.php"
+        ]
     }
 }

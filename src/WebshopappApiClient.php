@@ -42,6 +42,16 @@ class WebshopappApiClient
     private $options = array();
 
     /**
+     * @var string
+     */
+    private $lastHeaders = null;
+
+    /**
+     * @var WebshopappApiClientRateLimiter
+     */
+    private $rateLimiter = null;
+
+    /**
      * @var WebshopappApiResourceAccount
      */
     public $account;
@@ -437,7 +447,7 @@ class WebshopappApiClient
      * @var WebshopappApiResourceWebhooks
      */
     public $webhooks;
-    
+
     /**
      * @param string $apiKey      The api key
      * @param string $apiSecret   The api secret
@@ -539,7 +549,7 @@ class WebshopappApiClient
     {
         return $this->options;
     }
-    
+
     /**
      * @return string
      */
@@ -548,12 +558,25 @@ class WebshopappApiClient
         return $this->apiServer;
     }
 
+    public function setRateLimiter($rateLimiter) {
+        $this->rateLimiter = $rateLimiter;
+    }
+
     /**
      * @return int
      */
     public function getApiCallsMade()
     {
         return $this->apiCallsMade;
+    }
+
+    /**
+     * Returns the headers of the last call
+     *
+     * @return string
+     */
+    public function getLastHeaders() {
+        return $this->lastHeaders;
     }
 
     /**
@@ -742,8 +765,26 @@ class WebshopappApiClient
      * @return mixed The decoded response object
      * @throws WebshopappApiException
      */
-    private function sendRequest($url, $method, $payload = null)
+    private function sendRequest($url, $method, $payload = null){
+        for($i=0;$i<3;$i++) {
+            try {
+                return $this->realSendRequest($url, $method, $payload);
+            }catch(\Exception $ex) {
+                if(strpos($ex->getMessage(), "Curl error:") !== 0 || $i == 2) {
+                    throw $ex;
+                }
+
+                sleep(10*$i + 5);
+            }
+        }
+    }
+
+    private function realSendRequest($url, $method, $payload = null)
     {
+        if($this->rateLimiter !== null) {
+            $this->rateLimiter->preSendRequest($this);
+        }
+
         $this->checkLoginCredentials();
 
         if ($method == 'post' || $method == 'put')
@@ -775,26 +816,33 @@ class WebshopappApiClient
         }
 
         $curlOptions += array(
-            CURLOPT_HEADER         => false,
+            CURLOPT_HEADER         => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT      => 'WebshopappApiClient/' . self::CLIENT_VERSION . ' (PHP/' . phpversion() . ', DotCommerce)',
+            CURLOPT_CONNECTTIMEOUT  => 10,
+            CURLOPT_TIMEOUT         => 60,
+            CURLOPT_ENCODING        => "",
         );
 
         if(!empty($this->options['curl.options']) && is_array($this->options['curl.options'])) {
             $curlOptions += $this->options['curl.options'];
         }
-        
+
         $curlHandle = curl_init();
 
         curl_setopt_array($curlHandle, $curlOptions);
 
-        $responseBody = curl_exec($curlHandle);
+        $responseHeadersAndBody = curl_exec($curlHandle);
+        $headerSize      = curl_getinfo($curlHandle, CURLINFO_HEADER_SIZE);
+        $responseHeaders = substr($responseHeadersAndBody, 0, $headerSize);
+        $responseBody    = substr($responseHeadersAndBody, $headerSize);
 
         if (curl_errno($curlHandle))
         {
             $this->handleCurlError($curlHandle);
         }
 
+        $this->lastHeaders = $responseHeaders;
         $responseBody = json_decode($responseBody, true);
         $responseCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
 
@@ -2268,13 +2316,14 @@ class WebshopappApiResourceCheckoutsShipment_methods
 
     /**
      * @param int $checkoutId
+     * @param boolean $all
      *
      * @return array
      * @throws WebshopappApiException
      */
-    public function get($checkoutId)
+    public function get($checkoutId, $all = false)
     {
-        return $this->client->read('checkouts/' . $checkoutId . '/shipment_methods');
+        return $this->client->read('checkouts/' . $checkoutId . '/shipment_methods'.($all ? "?all":""));
     }
 }
 
@@ -3675,7 +3724,7 @@ class WebshopappApiResourceOrdersCredit
      */
     public function create($orderId, $fields)
     {
-        $fields = array('creditInvoice' => $fields);
+        $fields = array('credit' => $fields);
 
         return $this->client->create('orders/' . $orderId . '/credit', $fields);
     }
@@ -6033,6 +6082,44 @@ class WebshopappApiResourceTaxes
     public function __construct(WebshopappApiClient $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function create($fields)
+    {
+        $fields = array('tax' => $fields);
+
+        return $this->client->create('taxes', $fields);
+    }
+
+    /**
+     * @param int $taxId
+     * @param array $fields
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function update($taxId, $fields)
+    {
+        $fields = array('tax' => $fields);
+
+        return $this->client->update('taxes/' . $taxId, $fields);
+    }
+
+    /**
+     * @param int $taxId
+     *
+     * @return array
+     * @throws WebshopappApiException
+     */
+    public function delete($taxId)
+    {
+        return $this->client->delete('taxes/' . $taxId);
     }
 
     /**
